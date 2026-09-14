@@ -4,13 +4,13 @@ This is a Proof of Concept for the Travel Buddy web application. The goal is to 
 The POC is built using React and MapLibre and currently focuses on Philadelphia.
 
 # Technology
-. React
-. MapLibre GL JS
-. Overpass API
-. OpenStreetMap (OSM)
-. OSRM
-+ GTFS
-+ OpenTripPlanner
++ React
++ MapLibre GL JS
++ Overpass API
++ OpenStreetMap (OSM)
++ OSRM
+. GTFS
+. OpenTripPlanner
 
 # POC 1: Map
 The first POC uses React and MapLibre to display a map centered on Philadelphia.
