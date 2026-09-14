@@ -7,6 +7,7 @@ function App() {
   const mapRef = useRef(null);
   const routePoints = useRef([]);
   const [routeReady, setRouteReady] = useState(false);
+  const [transitResult, setTransitResult] = useState("");
 
   useEffect(() => {
   if (!mapContainer.current) return;
@@ -135,6 +136,75 @@ function App() {
     console.error("OSRM request failed:", error);
   }
 }
+
+  async function testTransit() {
+  const query = `
+    query {
+      planConnection(
+        origin: {
+          location: {
+            coordinate: {
+              latitude: 39.9526
+              longitude: -75.1652
+            }
+          }
+        }
+        destination: {
+          location: {
+            coordinate: {
+              latitude: 39.9550
+              longitude: -75.1600
+            }
+          }
+        }
+        dateTime: {
+          earliestDeparture: "2026-09-14T17:00:00-04:00"
+        }
+        first: 1
+      ) {
+        edges {
+          node {
+            legs {
+              mode
+              from {
+                name
+              }
+              to {
+                name
+              }
+              route {
+                shortName
+                longName
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(
+      "http://localhost:8080/otp/gtfs/v1",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+      }
+    );
+
+    const data = await response.json();
+
+    console.log("OTP response:", data);
+
+    setTransitResult(JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error("OTP request failed:", error);
+    setTransitResult("OTP request failed. Is the OTP server running?");
+  }
+}
   //Return button
   return (
   <>
@@ -156,7 +226,38 @@ function App() {
     >
       Get Route
     </button>
+    <button
+  onClick={testTransit}
+  style={{
+    position: "absolute",
+    top: "70px",
+    left: "20px",
+    zIndex: 1,
+    padding: "10px 15px",
+  }}
+>
+  Test Transit API
+</button>
+{transitResult && (
+  <pre
+    style={{
+      position: "absolute",
+      top: "120px",
+      left: "20px",
+      zIndex: 1,
+      width: "400px",
+      maxHeight: "400px",
+      overflow: "auto",
+      background: "white",
+      padding: "10px",
+      fontSize: "12px",
+    }}
+  >
+    {transitResult}
+  </pre>
+)}
   </>
+  
 );
 }
 export default App;

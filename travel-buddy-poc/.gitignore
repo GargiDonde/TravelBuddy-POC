@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# OpenTripPlanner files
+otp/*.jar
+otp/*.osm.pbf
+otp/*.gtfs.zip
+otp/**/graphs/
+otp/**/build/
+otp/**/cache/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
