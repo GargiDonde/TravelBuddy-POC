@@ -39,6 +39,14 @@ This part will be implemented after the first three POCs are completed.
 
 Status: In progress
 
+# Transit Integration
+OpenTripPlanner 2.10.0 was tested with SEPTA GTFS data and the Pennsylvania OpenStreetMap dataset. OTP successfully built the graph and loaded SEPTA routes and stops, which were accessible through the GraphQL API.
+
+However, attempts to generate actual transit itineraries resulted in an internal OTP error (Index ... out of bounds for length 0). During the build process, OTP also reported errors related to constrained transfers and staySeated transfer rules in the SEPTA rail data.
+
+OSM-only routing was tested successfully, so the issue appears specific to the transit portion of the integration.
+For this proof of concept, the transit integration and data loading were verified, while the transit itinerary-routing issue is documented as a limitation for further investigation.
+
 # How to run this project
 Clone the repository and install the dependencies:
 npm install
@@ -47,3 +55,5 @@ Start the development server:
 npm run dev
 
 Then open the local URL provided by Vite in your browser.
+
+
